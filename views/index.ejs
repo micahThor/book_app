@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,38 @@
   <link rel="stylesheet" href="../public/styles/base.css" />
   <title>Document</title>
 </head>
+
 <body>
 
-<h1>Hello World!</h1>
-  
+  <h1>Hello World!</h1>
+
+  <form method="POST" action='/'>
+
+    <label>
+      <span>
+        Search:
+      </span>
+      <input type="text" name="searchField">
+    </label>
+
+    <label>
+      <span>
+        Search by Author
+      </span>
+      <input type="radio" name="searchBy" value="author">
+    </label>
+
+    <label>
+      <span>
+        Search by Title
+      </span>
+      <input type="radio" name="searchBy" value="title">
+    </label>
+
+    <button>Submit</button>
+
+  </form>
+
 </body>
+
 </html>
