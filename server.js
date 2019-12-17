@@ -9,7 +9,7 @@ const PORT = process.env.PORT;
 
 const app = express();
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 
 app.set('view engine', 'ejs');
@@ -19,26 +19,33 @@ app.get('/', (req, res) => {
 });
 
 app.post('/searches', (req, res) => {
-  
+
   const url = getUrl(req.body.searchField, req.body.searchBy);
 
   superagent.get(url).then(result => {
     let bookArray = getBooks(result);
-    res.render('pages/searches/show', { books: bookArray});
-  });
+    res.render('pages/searches/show', { books: bookArray });
+  }).catch(err => errorHandler(err, res));
 });
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
 
 
+// UTILS MODULES STUFF
+function errorHandler(err, res) {
+  console.error(err);
+  res.render('error');
+}
+
+
 // BOOKS MODULE STUFF
 
 function getBooks(result) {
-  
+
   let firstTenBooks = result.body.items.slice(0, 11);
-  
-  let bookObjs = firstTenBooks.map( book => new Book(book));
+
+  let bookObjs = firstTenBooks.map(book => new Book(book));
 
   return bookObjs;
 }
