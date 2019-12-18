@@ -23,12 +23,17 @@
           <li>title: <%=book.title %><br />
             author: <%=book.author %><br />
             img: <img src="<%=book.img %>"><br />
-            description: <%=book.description %></li>
+            description: <%=book.description %>
+          <button id = "showFormButton">Select this Book</button>
+          <form id = "editForm" action="">Test</form>
           <% }); %>
+        </li>
         </ul>
       </div>
     </div>
   </main>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="/scripts/showForm.js"></script>
 </body>
 
 </html>

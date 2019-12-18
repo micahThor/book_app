@@ -15,3 +15,7 @@ form span {
   font-size: 18px;
   letter-spacing: 0.1em;
 }
+
+#editForm {
+  display: none;
+}

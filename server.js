@@ -59,6 +59,10 @@ function errorHandler(err, res) {
   res.render('error');
 }
 
+// function showForm () {
+//   $("#editForm").show();
+// }
+
 
 // BOOKS MODULE STUFF
 
@@ -93,3 +97,4 @@ function Book(bookItem) {
   this.description = bookItem.volumeInfo.description;
   this.isbn = bookItem.volumeInfo.industryIdentifiers[0].identifier;
 }
+
