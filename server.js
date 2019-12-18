@@ -6,29 +6,20 @@ const ejs = require('ejs');
 const superagent = require('superagent');
 require('dotenv').config();
 const PORT = process.env.PORT;
-
 const app = express();
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
-
 app.set('view engine', 'ejs');
 
+// routes
 app.get('/', (req, res) => {
   res.render('index');
 });
-
-app.post('/searches', (req, res) => {
-
-  const url = getUrl(req.body.searchField, req.body.searchBy);
-
-  superagent.get(url).then(result => {
-    let bookArray = getBooks(result);
-    res.render('pages/searches/show', { books: bookArray });
-  }).catch(err => errorHandler(err, res));
-});
+app.post('/searches', getBooks);
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+
+
 
 
 
@@ -41,13 +32,16 @@ function errorHandler(err, res) {
 
 // BOOKS MODULE STUFF
 
-function getBooks(result) {
+function getBooks(req, res) {
 
-  let firstTenBooks = result.body.items.slice(0, 11);
+  const url = getUrl(req.body.searchField, req.body.searchBy);
 
-  let bookObjs = firstTenBooks.map(book => new Book(book));
+  superagent.get(url).then(result => {
+    let firstTenBooks = result.body.items.slice(0, 11);
 
-  return bookObjs;
+    let bookObjs = firstTenBooks.map(book => new Book(book));
+    res.render('pages/searches/show', { books: bookObjs });
+  }).catch(err => errorHandler(err, res));
 }
 
 function getUrl(searchField, searchByType) {
