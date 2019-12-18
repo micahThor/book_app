@@ -6,40 +6,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+  <link rel="stylesheet" href="/styles/reset.css" />
   <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/modules.css" />
+  <link rel="stylesheet" href="/styles/icons.css" />
   <title>Document</title>
 </head>
 
 <body>
 
-  <h1>Hello World!</h1>
+  <main>
+    <div id="screenBackground">
+      <div id="screenViewPort">
+        <form method="POST" action='/searches'>
 
-  <form method="POST" action='/searches'>
+          <label>
+            <span>
+              Search:
+            </span>
+            <input type="text" name="searchField">
+          </label>
 
-    <label>
-      <span>
-        Search:
-      </span>
-      <input type="text" name="searchField">
-    </label>
+          <label>
+            <span>
+              Search by Author
+            </span>
+            <input type="radio" name="searchBy" value="author">
+          </label>
 
-    <label>
-      <span>
-        Search by Author
-      </span>
-      <input type="radio" name="searchBy" value="author">
-    </label>
+          <label>
+            <span>
+              Search by Title
+            </span>
+            <input type="radio" name="searchBy" value="title">
+          </label>
 
-    <label>
-      <span>
-        Search by Title
-      </span>
-      <input type="radio" name="searchBy" value="title">
-    </label>
+          <button>Submit</button>
 
-    <button>Submit</button>
-
-  </form>
+        </form>
+      </div>
+    </div>
+  </main>
 
 </body>
 

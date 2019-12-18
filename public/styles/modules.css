@@ -1,0 +1,25 @@
+form {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+form label {
+  padding: 2% 0 2% 0;
+  background: gray;
+}
+
+#screenBackground {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: auto;
+}
+
+#screenViewPort {
+  margin: auto;
+  margin: 2% 0 2% 0;
+  padding: 2% 0 2% 0;
+  background: gray;
+  width: 100%;
+}
