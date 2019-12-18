@@ -7,14 +7,44 @@ const superagent = require('superagent');
 require('dotenv').config();
 const PORT = process.env.PORT;
 const app = express();
+// added for day 02
+const pg = require('pg');
+const client = new pg.Client(process.env.DATABASE_URL);
+
+// client.on('error', error => console.error(error));
+client.connect();
+
+// -------
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
 
 // routes
 app.get('/', (req, res) => {
-  res.render('index');
+
+  let SQL = `SELECT * FROM books`;
+
+  client.query(SQL)
+    .then(results => {
+      if (results.rows) {
+        res.render('index', { SQLResults: results.rows, bookCount: results.rowCount });
+      } else {
+        res.render('index');
+      }
+    });
 });
+
+app.get('/books/:id', (req, res) => {
+  // console.log(req.params);
+  const instructions = 'SELECT * FROM books WHERE id=$1';
+  const values = [req.params.id];
+  client.query(instructions, values).then(results => {
+    res.render('pages/books/detail', {SQLResults: results.rows});
+  })
+
+
+})
+
 app.post('/searches', getBooks);
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
@@ -61,4 +91,5 @@ function Book(bookItem) {
   this.author = bookItem.volumeInfo.authors[0];
   this.img = bookItem.volumeInfo.imageLinks.thumbnail;
   this.description = bookItem.volumeInfo.description;
+  this.isbn = bookItem.volumeInfo.industryIdentifiers[0].identifier;
 }
