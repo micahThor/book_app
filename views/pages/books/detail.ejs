@@ -5,18 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Details</title>
+
+  <link rel="stylesheet" href="/styles/reset.css" />
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/modules.css" />
+  <link rel="stylesheet" href="/styles/icons.css" />
 </head>
 <body>
   <ul>
     <% SQLResults.forEach(book => { %>
-    <li>title: <%=book.title %><br />
-      author: <%=book.author %><br />
-      img_url: <img src="<%=book.image_url %>"><br />
-      description: <%=book.description %><br />
-      isbn: <%=book.isbn %>
-    </li>
-    <% }); %>
-  </ul>
+      <form class="editForm" method="POST" action="/updateBookToDB">
+
+        
+        
+        <span class="showForm"><%=book.title %></span>
+        <label class="editForm"> Edit Title: <input name="title" value="<%=book.title %>">
+        </label>
+        
+        <span class="showForm"><%=book.author %></span>
+        <label class="editForm"> Edit Author: <input name="author" value="<%=book.author %>">
+        </label>
+        
+        <span class="showForm"><%=book.isbn %></span>
+        <label class="editForm"> Edit ISBN: <input name="isbn" value="<%=book.isbn %>">
+        </label>
+        
+        <img src="<%=book.image_url %>">
+        
+        <span class="showForm"> <%=book.description %></span>
+        <label class="editForm">Edit Description: <input name="description" value="<%=book.description %>">
+        </label>
+        
+        <span>Enter a Bookshelf:</span>
+        <input type="textbox" name="bookshelf" value="<%=book.bookShelf %>">
+        
+        <input type="hidden" name="id" value="<%=book.id %>">
+
+        <input type="submit" value="Save Book to Shelf">
+      </form>
+      <% }); %>
+
+
   <a href="/">Home</a>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="/scripts/showForm.js"></script>
 </body>
 </html>

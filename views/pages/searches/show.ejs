@@ -24,6 +24,7 @@
             <form class="editForm" method="POST" action="/saveBookToDB">
 
               <input type="hidden" name="img_url" value="<%=book.img %>">
+              <input type="hidden" name="isbn" value="<%=book.isbn %>">
 
               <span class="showForm"><%=book.title %></span>
               <label class="editForm"> Edit Title: <input name="title" value="<%=book.title %>">

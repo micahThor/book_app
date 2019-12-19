@@ -38,7 +38,9 @@ app.get('/books/:id', getDetailsAboutBook);
 
 app.post('/searches', getBooks);
 
-app.post('/saveBookToDB', saveToDataBase)
+app.post('/saveBookToDB', saveToDataBase);
+
+app.post('/updateBookToDB', updateToDataBase);
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
@@ -54,7 +56,8 @@ function errorHandler(err, res) {
 
 // ROUTE HANDLERS
 function saveToDataBase(req, res) {
-  const instructions = 'INSERT INTO books (image_url, title, author, description, bookshelf) VALUES ($1, $2, $3, $4, $5)';
+  const instructions = 'INSERT INTO books (image_url, isbn, title, author, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6)';
+  
   const values = Object.values(req.body);
   client.query(instructions, values);
   res.redirect('/');
@@ -68,9 +71,17 @@ function getDetailsAboutBook(req, res) {
   });
 }
 
+function updateToDataBase(req, res) {
+  const updateInstructions = 'UPDATE books SET title=$1, author=$2, isbn=$3, description=$4, bookshelf=$5 WHERE id=$6';
 
-// BOOKS MODULE STUFF
+  const values = Object.values(req.body);
 
+  client.query(updateInstructions, values);
+  res.redirect('/');
+}
+
+
+// BOOKS MODULE STUFF\
 function getBooks(req, res) {
   const url = getUrl(req.body.searchField, req.body.searchBy);
 
@@ -78,6 +89,7 @@ function getBooks(req, res) {
     let firstTenBooks = result.body.items.slice(0, 11);
 
     let bookObjs = firstTenBooks.map(book => new Book(book));
+    
     res.render('pages/searches/show', { books: bookObjs });
   }).catch(err => errorHandler(err, res));
 }
@@ -99,8 +111,8 @@ function Book(bookItem) {
   this.author = bookItem.volumeInfo.authors[0];
   this.img = bookItem.volumeInfo.imageLinks.thumbnail;
   this.description = bookItem.volumeInfo.description;
-  this.isbn = bookItem.volumeInfo.industryIdentifiers[0].identifier;
-  this.bookshelf = 'My Top Picks'
+  this.isbn = bookItem.volumeInfo.industryIdentifiers[1].identifier;
+  this.bookshelf = 'My Top Picks';
 }
 
 
