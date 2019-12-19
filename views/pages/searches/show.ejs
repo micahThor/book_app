@@ -19,15 +19,33 @@
     <div id="screenBackground">
       <div id="screenViewPort">
         <ul>
-          <% books.forEach(book => { %>
-          <li>title: <%=book.title %><br />
-            author: <%=book.author %><br />
-            img: <img src="<%=book.img %>"><br />
-            description: <%=book.description %>
-          <button id = "showFormButton">Select this Book</button>
-          <form id = "editForm" action="">Test</form>
-          <% }); %>
-        </li>
+          <% books.forEach( (book, index, array) => { %>
+          <li>
+            <form class="editForm" method="POST" action="/saveBookToDB">
+
+              <input type="hidden" name="img_url" value="<%=book.img %>">
+
+              <span class="showForm"><%=book.title %></span>
+              <label class="editForm"> Edit Title: <input name="title" value="<%=book.title %>">
+              </label>
+
+              <span class="showForm"><%=book.author %></span>
+              <label class="editForm"> Edit Author: <input class="editForm" name="author" value="<%=book.author %>">
+              </label>
+
+              <img src="<%=book.img %>">
+
+              <span class="showForm"> <%=book.description %></span>
+              <label class="editForm">Edit Description: <input class="editForm" name="description" value="<%=book.description %>">
+              </label>
+
+              <span>Enter a Bookshelf:</span>
+              <input type="textbox" name="bookshelf" value="<%=book.bookShelf %>">
+
+              <input type="submit" value="Save Book to Shelf">
+            </form>
+            <% }); %>
+          </li>
         </ul>
       </div>
     </div>
