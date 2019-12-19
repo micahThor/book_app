@@ -34,15 +34,7 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/books/:id', (req, res) => {
-
-  const instructions = 'SELECT * FROM books WHERE id=$1';
-  const values = [req.params.id];
-  client.query(instructions, values).then(results => {
-    res.render('pages/books/detail', { SQLResults: results.rows });
-  });
-
-})
+app.get('/books/:id', getDetailsAboutBook);
 
 app.post('/searches', getBooks);
 
@@ -60,21 +52,26 @@ function errorHandler(err, res) {
   res.render('error');
 }
 
+// ROUTE HANDLERS
 function saveToDataBase(req, res) {
-
   const instructions = 'INSERT INTO books (image_url, title, author, description, bookshelf) VALUES ($1, $2, $3, $4, $5)';
-  
   const values = Object.values(req.body);
-
   client.query(instructions, values);
   res.redirect('/');
 };
+
+function getDetailsAboutBook(req, res) {
+  const instructions = 'SELECT * FROM books WHERE id=$1';
+  const values = [req.params.id];
+  client.query(instructions, values).then(results => {
+    res.render('pages/books/detail', { SQLResults: results.rows });
+  });
+}
 
 
 // BOOKS MODULE STUFF
 
 function getBooks(req, res) {
-
   const url = getUrl(req.body.searchField, req.body.searchBy);
 
   superagent.get(url).then(result => {
