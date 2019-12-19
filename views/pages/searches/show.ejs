@@ -40,8 +40,9 @@
               <label class="editForm">Edit Description: <input class="editForm" name="description" value="<%=book.description %>">
               </label>
 
-              <span>Enter a Bookshelf:</span>
-              <input type="textbox" name="bookshelf" value="<%=book.bookShelf %>">
+              <span class="showForm"><%=book.bookshelf %></span>
+              <label class="editForm">Edit Book Shelf:<input type="textbox" name="bookshelf" value="<%=book.bookShelf %>">
+              </label>
 
               <input type="submit" value="Save Book to Shelf">
             </form>
