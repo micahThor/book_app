@@ -48,7 +48,7 @@
           <% SQLResults.forEach(book => { %>
           <li>title: <%=book.title %><br />
             author: <%=book.author %><br />
-            img_url: <img src="<%=book.img_url %>"><br />
+            img_url: <img src="<%=book.image_url %>"><br />
             description: <%=book.description %>          
           <a href="/books/<%= book.id %>">View Details</a>
           
