@@ -36,6 +36,7 @@ app.get('/', (req, res) => {
 
 app.get('/books/:id', getDetailsAboutBook);
 
+
 app.post('/searches', getBooks);
 
 app.post('/saveBookToDB', saveToDataBase);
@@ -54,6 +55,8 @@ function errorHandler(err, res) {
   res.render('error');
 }
 
+
+
 // ROUTE HANDLERS
 function saveToDataBase(req, res) {
   const instructions = 'INSERT INTO books (image_url, isbn, title, author, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6)';
@@ -66,12 +69,19 @@ function saveToDataBase(req, res) {
 function getDetailsAboutBook(req, res) {
   const instructions = 'SELECT * FROM books WHERE id=$1';
   const values = [req.params.id];
+
   client.query(instructions, values).then(results => {
-    res.render('pages/books/detail', { SQLResults: results.rows });
+
+    client.query('SELECT DISTINCT bookshelf FROM books').then( resultbookShelf => {
+
+      res.render('pages/books/detail', { SQLResults: results.rows, shelf: resultbookShelf.rows });
+    });
+
   });
 }
 
 function updateToDataBase(req, res) {
+  
   const updateInstructions = 'UPDATE books SET title=$1, author=$2, isbn=$3, description=$4, bookshelf=$5 WHERE id=$6';
 
   const values = Object.values(req.body);
