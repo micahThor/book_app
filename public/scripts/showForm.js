@@ -1,5 +1,5 @@
-$('#showFormButton').on('click', () => {
-  console.log('I was clicked on');
-  $('#editForm').show();
+$('.showForm').on('click', () => {
+  console.log("clicked");
+  $('.editForm').show();
 
 });

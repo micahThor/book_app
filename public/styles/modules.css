@@ -4,18 +4,18 @@ form {
   flex-direction: column;
 }
 
-form label {
+form span, form label {
   padding: 10px;
   border: 1px solid blue;
   width: 100%;
   background: gray;
 }
 
-form span {
+form span, form label {
   font-size: 18px;
   letter-spacing: 0.1em;
 }
 
-#editForm {
+label {
   display: none;
 }

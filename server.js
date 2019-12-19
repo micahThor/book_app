@@ -11,7 +11,7 @@ const app = express();
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
 
-// client.on('error', error => console.error(error));
+client.on('error', error => console.error(error));
 client.connect();
 
 // -------
@@ -35,17 +35,18 @@ app.get('/', (req, res) => {
 });
 
 app.get('/books/:id', (req, res) => {
-  // console.log(req.params);
+
   const instructions = 'SELECT * FROM books WHERE id=$1';
   const values = [req.params.id];
   client.query(instructions, values).then(results => {
-    res.render('pages/books/detail', {SQLResults: results.rows});
-  })
-
+    res.render('pages/books/detail', { SQLResults: results.rows });
+  });
 
 })
 
 app.post('/searches', getBooks);
+
+app.post('/saveBookToDB', saveToDataBase)
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
@@ -59,9 +60,15 @@ function errorHandler(err, res) {
   res.render('error');
 }
 
-// function showForm () {
-//   $("#editForm").show();
-// }
+function saveToDataBase(req, res) {
+
+  const instructions = 'INSERT INTO books (image_url, title, author, description, bookshelf) VALUES ($1, $2, $3, $4, $5)';
+  
+  const values = Object.values(req.body);
+
+  client.query(instructions, values);
+  res.redirect('/');
+};
 
 
 // BOOKS MODULE STUFF
@@ -96,5 +103,8 @@ function Book(bookItem) {
   this.img = bookItem.volumeInfo.imageLinks.thumbnail;
   this.description = bookItem.volumeInfo.description;
   this.isbn = bookItem.volumeInfo.industryIdentifiers[0].identifier;
+  this.bookshelf = 'My Top Picks'
 }
+
+
 
