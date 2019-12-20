@@ -19,48 +19,27 @@
   <main>
     <div id="screenBackground">
       <div id="screenViewPort">
-        <form method="POST" action='/searches'>
-
-            <span>
-              Search:
-            </span>
-            <input type="text" name="searchField">
-
-            <span>
-              Search by Author
-            </span>
-            <input type="radio" name="searchBy" value="author">
-            
-            <span>
-              Search by Title
-            </span>
-            <input type="radio" name="searchBy" value="title">
-          </label>
-
-          <button>Submit</button>
-
-        </form>
+        <a href="/searchPage">Search Library for Books</a>
         <p>
-          Number of Book: 
+          Number of Book:
           <%= bookCount %>
         </p>
         <ul>
           <% SQLResults.forEach(book => { %>
-          <li>title: <%=book.title %><br />
-            author: <%=book.author %><br />
-            img_url: <img src="<%=book.image_url %>"><br />
-            description: <%=book.description %>          
-          <a href="/books/<%= book.id %>">View Details</a>
-          
-          <form method=POST action="/removeBook?_method=DELETE">
-            <input type="hidden" name="bookToDelete" value="<%= book.id %>">
-            <input type="submit" value="Remove from Bookshel">
+          <li>
+            <h3 class="bookTitle">title: <%=book.title %></h3>
+            <p class="author">author: <%=book.author %></p>
+            img_url: <img src="<%=book.image_url %>">
+            description: <%=book.description %>
+            <a href="/books/<%= book.id %>">View Details</a>
 
-          </form>
-          <% }); %> 
+            <form method=POST action="/removeBook?_method=DELETE">
+              <input type="hidden" name="bookToDelete" value="<%= book.id %>">
+              <input type="submit" value="Remove from Bookshelf">
 
-
-        </li>
+            </form>
+            <% }); %>
+          </li>
         </ul>
       </div>
     </div>

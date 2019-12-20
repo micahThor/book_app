@@ -9,15 +9,13 @@ require('dotenv').config();
 const PORT = process.env.PORT;
 const app = express();
 
-
-// added for day 02
+// database dependencies
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
-
 client.on('error', error => console.error(error));
 client.connect();
 
-// -------
+// express & ejs configurations
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
@@ -40,6 +38,7 @@ app.get('/', (req, res) => {
 
 app.get('/books/:id', getDetailsAboutBook);
 
+app.get('/searchPage', goToSearchPage);
 
 app.post('/searches', getBooks);
 
@@ -64,6 +63,8 @@ function errorHandler(err, res) {
 
 
 // ROUTE HANDLERS
+//
+// saves a selected book to the database on saveToDataBase route
 function saveToDataBase(req, res) {
   const instructions = 'INSERT INTO books (image_url, isbn, title, author, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6)';
   
@@ -72,6 +73,7 @@ function saveToDataBase(req, res) {
   res.redirect('/');
 };
 
+// redirects user to selected book page with details about book on getDetailsAboutBook route
 function getDetailsAboutBook(req, res) {
   const instructions = 'SELECT * FROM books WHERE id=$1';
   const values = [req.params.id];
@@ -83,6 +85,7 @@ function getDetailsAboutBook(req, res) {
   });
 }
 
+// updates data about book based on user input on updateToDataBase route
 function updateToDataBase(req, res) {
   
   const updateInstructions = 'UPDATE books SET title=$1, author=$2, isbn=$3, description=$4, bookshelf=$5 WHERE id=$6';
@@ -91,12 +94,16 @@ function updateToDataBase(req, res) {
   res.redirect('/');
 }
 
+// removes a book from user's bookshelf on removeBookFromShelf route
 function removeBookFromShelf(req, res) {
 
-  console.log(req.body);
   client.query('DELETE FROM books WHERE id=$1', [req.body.bookToDelete]).then(() => {
     res.redirect('/');
   });
+}
+
+function goToSearchPage(req, res) {
+  res.render('./pages/searches/search.ejs');
 }
 
 
