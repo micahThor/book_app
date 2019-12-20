@@ -52,7 +52,14 @@
             description: <%=book.description %>          
           <a href="/books/<%= book.id %>">View Details</a>
           
+          <form method=POST action="/removeBook?_method=DELETE">
+            <input type="hidden" name="bookToDelete" value="<%= book.id %>">
+            <input type="submit" value="Remove from Bookshel">
+
+          </form>
           <% }); %> 
+
+
         </li>
         </ul>
       </div>

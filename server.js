@@ -4,9 +4,12 @@
 const express = require('express');
 const ejs = require('ejs');
 const superagent = require('superagent');
+const methodoverride = require('method-override');
 require('dotenv').config();
 const PORT = process.env.PORT;
 const app = express();
+
+
 // added for day 02
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
@@ -18,6 +21,7 @@ client.connect();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
+app.use(methodoverride('_method'));
 
 // routes
 app.get('/', (req, res) => {
@@ -42,6 +46,8 @@ app.post('/searches', getBooks);
 app.post('/saveBookToDB', saveToDataBase);
 
 app.post('/updateBookToDB', updateToDataBase);
+
+app.delete('/removeBook', removeBookFromShelf)
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
@@ -71,23 +77,26 @@ function getDetailsAboutBook(req, res) {
   const values = [req.params.id];
 
   client.query(instructions, values).then(results => {
-
     client.query('SELECT DISTINCT bookshelf FROM books').then( resultbookShelf => {
-
       res.render('pages/books/detail', { SQLResults: results.rows, shelf: resultbookShelf.rows });
     });
-
   });
 }
 
 function updateToDataBase(req, res) {
   
   const updateInstructions = 'UPDATE books SET title=$1, author=$2, isbn=$3, description=$4, bookshelf=$5 WHERE id=$6';
-
   const values = Object.values(req.body);
-
   client.query(updateInstructions, values);
   res.redirect('/');
+}
+
+function removeBookFromShelf(req, res) {
+
+  console.log(req.body);
+  client.query('DELETE FROM books WHERE id=$1', [req.body.bookToDelete]).then(() => {
+    res.redirect('/');
+  });
 }
 
 
