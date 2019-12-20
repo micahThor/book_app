@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/styles/layout.css" />
   <link rel="stylesheet" href="/styles/modules.css" />
   <link rel="stylesheet" href="/styles/icons.css" />
+  <link href="https://fonts.googleapis.com/css?family=Cabin&display=swap" rel="stylesheet">
   <title>Searches</title>
 </head>
 
@@ -20,23 +21,23 @@
       <div id="screenViewPort">
         <ul>
           <% books.forEach( (book, index, array) => { %>
-          <li>
+          <li class="bookItem">
             <form class="editForm" method="POST" action="/saveBookToDB">
 
               <input type="hidden" name="img_url" value="<%=book.img %>">
               <input type="hidden" name="isbn" value="<%=book.isbn %>">
 
-              <span class="showForm"><%=book.title %></span>
+              <span class="showForm"><h3 class="bookTitle"><%=book.title %></h3></span>
               <label class="editForm"> Edit Title: <input name="title" value="<%=book.title %>">
               </label>
 
-              <span class="showForm"><%=book.author %></span>
+              <span class="showForm" class="author"><p class="author"><%=book.author %></p></span>
               <label class="editForm"> Edit Author: <input class="editForm" name="author" value="<%=book.author %>">
               </label>
 
-              <img src="<%=book.img %>">
+              <img class="bookImg" src="<%=book.img %>">
 
-              <span class="showForm"> <%=book.description %></span>
+              <span class="showForm"><p class="description"><%=book.description %></p></span>
               <label class="editForm">Edit Description: <input class="editForm" name="description" value="<%=book.description %>">
               </label>
 

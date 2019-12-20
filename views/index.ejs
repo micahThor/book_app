@@ -11,7 +11,8 @@
   <link rel="stylesheet" href="/styles/layout.css" />
   <link rel="stylesheet" href="/styles/modules.css" />
   <link rel="stylesheet" href="/styles/icons.css" />
-  <title>Document</title>
+  <link href="https://fonts.googleapis.com/css?family=Cabin&display=swap" rel="stylesheet">
+  <title>Document</title> 
 </head>
 
 <body>
@@ -19,23 +20,22 @@
   <main>
     <div id="screenBackground">
       <div id="screenViewPort">
-        <a href="/searchPage">Search Library for Books</a>
-        <p>
-          Number of Book:
-          <%= bookCount %>
-        </p>
+
+        <a id="goToSearchPageLink" href="/searchPage">Search Library for Books</a>
+        <p id="booksOnShelf">Books on Shelf: <%= bookCount %> </p>
+
         <ul>
           <% SQLResults.forEach(book => { %>
-          <li>
-            <h3 class="bookTitle">title: <%=book.title %></h3>
-            <p class="author">author: <%=book.author %></p>
-            img_url: <img src="<%=book.image_url %>">
-            description: <%=book.description %>
-            <a href="/books/<%= book.id %>">View Details</a>
+          <li class="bookItem">
+            <h3 class="bookTitle"><%=book.title %></h3>
+            <p class="author"><%=book.author %></p>
+            <img class="bookImg" src="<%=book.image_url %>">
+            <p class="description"><%=book.description %></p>
+            <a class="detailsLink" href="/books/<%= book.id %>">View Details</a>
 
             <form method=POST action="/removeBook?_method=DELETE">
               <input type="hidden" name="bookToDelete" value="<%= book.id %>">
-              <input type="submit" value="Remove from Bookshelf">
+              <input class="removeFromShelfButton" type="submit" value="Remove from Bookshelf">
 
             </form>
             <% }); %>
