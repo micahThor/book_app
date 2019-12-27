@@ -113,8 +113,7 @@ function getBooks(req, res) {
 
   superagent.get(url).then(result => {
     let firstTenBooks = result.body.items.slice(0, 11);
-
-    let bookObjs = firstTenBooks.map(book => new Book(book));
+    let bookObjs = firstTenBooks.map(book => new Book(book.volumeInfo));
     
     res.render('pages/searches/show', { books: bookObjs });
   }).catch(err => errorHandler(err, res));
@@ -133,11 +132,11 @@ function getUrl(searchField, searchByType) {
 }
 
 function Book(bookItem) {
-  this.title = bookItem.volumeInfo.title;
-  this.author = bookItem.volumeInfo.authors[0];
-  this.img = bookItem.volumeInfo.imageLinks.thumbnail;
-  this.description = bookItem.volumeInfo.description;
-  this.isbn = bookItem.volumeInfo.industryIdentifiers[1].identifier;
+  this.title = bookItem.title || 'No Title Avaialable';
+  this.author = bookItem.authors ? bookItem.authors[0] : 'No Author Available';
+  this.img = bookItem.imageLinks ? bookItem.imageLinks.thumbnail : 'https://image.flaticon.com/icons/png/512/130/130304.png';
+  this.description = bookItem.description || 'No Description Available';
+  this.isbn = bookItem.industryIdentifiers ? `${bookItem.industryIdentifiers[0].type} ${bookItem.industryIdentifiers[0].identifier}` : 'No ISBN Available';
   this.bookshelf = 'My Top Picks';
 }
 
