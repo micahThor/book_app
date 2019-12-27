@@ -13,7 +13,11 @@ form span, form label {
   opacity: .75;
 }
 
-
+#edit {
+  text-align: center;
+  font-size: 40px;
+  font-family: 'Cabin', sans-serif;
+}
 
 label {
   display: none;
