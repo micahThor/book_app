@@ -19,6 +19,7 @@
   <main>
     <div id="screenBackground">
       <div id="screenViewPort">
+        <h3 id="edit">Click Fields to Edit</h3>
         <ul>
           <% books.forEach( (book, index, array) => { %>
           <li class="bookItem">
@@ -41,8 +42,8 @@
               <label class="editForm">Edit Description: <input class="editForm" name="description" value="<%=book.description %>">
               </label>
 
-              <span class="showForm"><%=book.bookshelf %></span>
-              <label class="editForm">Edit Book Shelf:<input type="textbox" name="bookshelf" value="<%=book.bookShelf %>">
+              <span class="showForm">BOOKSHELF: <%=book.bookshelf %></span>
+              <label class="editForm">Edit Book Shelf:<input type="textbox" name="bookshelf" value="<%=book.bookshelf %>">
               </label>
 
               <input type="submit" value="Save Book to Shelf">
